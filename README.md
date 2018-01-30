@@ -1,4 +1,4 @@
-# Master Thesis archive: "A social network for philatelist"
+# Master Thesis archive: "Benchmark of popular image matching algorithms"
 
 ## Introduction
 
@@ -8,10 +8,16 @@ While I do not have much use of this project myself, I hope that sharing my obse
 
 ## The dissertation
 
-This project involved building a simple website allowing management and trading of stamps collection between users, with an image matching mechanism to facilitate identification and classification of stamps previously unknown to the user.
+This project involved building a simple social website allowing management and trading of stamps collection between registered users, with the main feature being an image matching mechanism to facilitate identification and classification of stamps previously unknown to the user.
 
-While the main topic might not appear glamorous in the tech community, the idea was to play around with various reverse image retrieval algorithms selected through literature review (final benchmark including SIFT, SURF, ORB, BRISK and FREAK), in aim to test and analyze efficiency and tolerance to defects.
-The website was built using Python and Django; stamps image database was gathered via web-scraping of specialized websites (Scrapy), while the various images matching algorithms implementations were done with the help of OpenCV.
+In order to identify the algorithm most suited to this project, a selection of various image matching algorithms has been selected through literature review in aim to test and analyze efficiency and tolerance to defects. Final benchmark including SIFT, SURF, ORB, BRISK and FREAK.
+
+
+## Code info
+
+ * Social web-site built using Python and Django.
+ * Web-scraping of specialized philatelist websites using Scrapy.
+ * Images matching algorithms implementations done in Python with the help of the OpenCV library.
 
 
 ## Side-notes
