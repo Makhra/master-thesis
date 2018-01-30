@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project is an archive of my MSc dissertation and related source code.
+This project is an archive of my MSc dissertation and related source code submitted back in 2013.
 While I do not have much use of this project myself, I hope that sharing my observations/source code could help some future students working on similar project.
 
 
