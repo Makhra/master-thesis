@@ -1,0 +1,61 @@
+{%extends "base_stamps.html"%}
+{%block title%}Upload{%endblock%}
+{%block c_up%}class="active"{%endblock%}
+{%block form%}
+    <form action="" method="post" enctype="multipart/form-data">
+{%endblock%}
+
+{%block picture%}
+    {%load staticfiles%}
+    <img src="{%static "nostamp.jpg"%}" alt="Stamp Image" width="200" Height="250"/>
+{%endblock%}
+
+{%block catalog%}
+{%load stamps_extras %}
+    {%for catform in catalogs %}
+        <p>Stamp ID: {{catform.stampcat_id}}<br/>
+        Catalog name: {{catform.catalog_name}}</p>
+    {%endfor%}
+    <button name="add_catalog" value="True">Add catalog</button>
+    <button name="del_catalog" value="True">Delete catalog</button>
+    <input type="hidden" name="nb_cat" value="{{nb}}"/>
+{%endblock%}
+
+{%block nownership%}
+
+{%endblock%}
+
+{%block common%}
+    {%for i in stampform%}
+        {%if i.name == 'issue_country' or i.name == 'issue_year' or i.name == 'face_value'%}
+            {#<div{% if i.errors %}class="field_error"{%endif%}>#}
+            {{i.label_tag}}: <br/>
+            {{i}}<br/>
+            {% for err in i.errors %}
+                <span class="error_message">{{err}}</span><br/>
+            {%endfor%}
+            {#</div>#}
+        {%endif%}
+    {%endfor%}
+{%endblock%}
+
+{%block advanced%}
+    {%for i in stampform%}
+        {%if i.name != 'issue_country' and i.name != 'issue_year' and i.name != 'face_value'%}
+            {#<div{% if i.errors %}class="field_error"{%endif%}>#}
+            {{i.label_tag}}:<br/>
+            {{i}}<br/>
+            {% for err in i.errors %}
+                <span class="error_message">{{err}}</span><br/>
+            {%endfor%}
+            {#</div>#}
+        {%endif%}
+    {%endfor%}
+
+    {% csrf_token %}
+    <button type="submit" value="Submit">Submit</button>
+{%endblock%}
+
+{%block closeform%} 
+    </form>
+{%endblock%}

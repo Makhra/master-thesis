@@ -1,0 +1,48 @@
+{%extends "base_users.html"%}
+{%block title%}{{block.super}} - {{u.username}} friends management{%endblock%}
+
+{%block c_se%}class="active"{%endblock%}
+{%block edit%}
+    <div id="edit">
+        <a href="/stamps/edit">Edit</a>
+    </div>
+{%endblock%}
+{%block lsearch%}Search for a friend{%endblock%}
+{%block request%}
+    {% for friend in f %}
+        <span><a href="/stamps/user/?user={{friend.friend.user_id}}">{{ friend.friend.user.username}}</a></span><br/>
+    {%endfor%}
+    {%endblock%}
+
+{%block middle_left%}
+    <fieldset class="commonl">
+    <legend>Shared</legend>
+        {%if shared%}
+        <table>
+        <tr><th>Username</th><th>Addition date</th><th>Type</th></tr>
+        {%for friend in shared%}
+            <tr><td><a href="/stamps/user/?user={{friend.friend_id}}">{{friend.friend.user.username}}</a></td><td>{{friend.date}}</td><td>{{friend.type}}</td><td><a href="/stamps/nfriendreq/?user={{friend.friend_id}}">Delete</a></td></tr>
+        {%endfor%}
+        </table>
+        {%else%}
+        <p>You are not sharing your information to any user</p>
+        {%endif%}
+    </fieldset>
+{%endblock%}
+
+{%block middle_right%}
+    <fieldset class="commonr">
+    <legend>Friends</legend>
+        {%if friends%}
+        <table>
+        <tr><th>Username</th><th>Addition date</th><th>Type</th></tr>
+        {%for friend in friends%}
+            <tr><td><a href="/stamps/user/?user={{friend.user_id}}">{{friend.user.user.username}}</a></td><td>{{friend.date}}</td><td>{{friend.type}}</td></tr>
+        {%endfor%}
+        </table>
+        {%else%}
+        <p>Nobody shares his information with you yet</p>
+        {%endif%}
+    </fieldset>
+{%endblock%}
+{%block bottom%}{%endblock%}

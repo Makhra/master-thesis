@@ -1,0 +1,42 @@
+{%extends 'base_simple.html'%}
+{%block c_fi%}class="active"{%endblock%}
+
+{%block content%}
+<div class="row">
+<div id="left">
+		<fieldset class="commonl">
+			<legend>Find a stamp</legend>
+<form action="" method="post" enctype="multipart/form-data">
+<input type="file" name="s_pic" />
+<br />
+
+    {% csrf_token %}
+    <button type="submit" value="Submit">Submit</button>
+</form>
+    {%if q%}
+    Uploaded stamp:
+    {%endif%}
+    {%if q.up_stamp.height < q.up_stamp.width%}
+        <img src="{{q.up_stamp.url}}"alt="Stamp Image" width="250" Height="200"/>
+    {%elif q.up_stamp %}
+        <img src="{{q.up_stamp.url}}"alt="Stamp Image" width="200" Height="250"/>
+        {%endif%}
+</div>
+<div id="right">
+{% for item in desc%}
+<fieldset class="commonr">
+	<legend>{{item.filename}}</legend>
+	<div id="avatar">{%if item.picture.height < item.picture.width%}
+        <img src="{{item.picture.url}}"alt="Stamp Image" width="250" Height="200"/>
+    {%elif item.picture %}
+        <img src="{{item.picture.url}}"alt="Stamp Image" width="200" Height="250"/>
+        {%endif%}</div><div id="info">
+        {{item.series}}:{{item.name}}<br/>
+        {{item.issue_country}} - {{item.issue_year}}
+
+        </div>
+</fieldset>
+{%endfor%}
+</div>
+</div>
+{%endblock%}

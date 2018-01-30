@@ -1,0 +1,45 @@
+{%extends "base_simple.html" %}
+
+{%block title%} Myphilately - Edit:{{u.user.username}}{%endblock%}
+
+{%block legend%}
+    Edit: {{u.username}}
+{%endblock%}
+{%block contfieldset%}
+    {%block info%}{%endblock%}
+
+    <div id="avatar">
+        {%if not user.user.avatar%}
+            {%load staticfiles%}
+            <img src="{% static "undefined.jpg"%}" alt="Profil Image" width="125" Height="150"/>
+        {%else%}
+            <img src="{{user.user.avatar}}" alt="Avatar"/>
+        {%endif%}
+    </div>
+    <div id="info">
+    <form action="" method="post" enctype="multipart/form-data">
+    	
+        <table><tr><td><label>Location: </label></td><td>{{form.location}}</td>
+    	        {% for err in form.location.errors %}
+                    <td>{{err}}</td>
+                {%endfor%}</tr>
+
+        <tr><td><label>Email: </label></td><td>{{form.email}}</td>
+    	        {% for err in form.email.errors %}
+                    <td>{{err}}</td>
+                {%endfor%}</tr>
+    	<tr><td><label>Avatar: </label></td><td>{{form.avatar}}</td>
+                {% for err in form.avatar.errors %}
+                    <td>{{err}}</td>
+                {%endfor%}</tr>
+    	<tr><td><label>Password: </label></td><td>{{form.password}}</td>
+                {% for err in form.password.errors %}
+                    <td>{{err}}</td>
+                {%endfor%}
+                </tr></table>
+        {% csrf_token %}
+        <button type="submit" value="Submit">Submit</button>
+    </form>
+</div>
+</fieldset>
+{%endblock%}

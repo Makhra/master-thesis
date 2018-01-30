@@ -1,0 +1,9 @@
+{% extends "base_users.html"%}
+{%block title%}User Profile{%endblock%}
+{%block c_ho%}class="active"{%endblock%}
+{%block edit%}
+    <div id="edit">
+        <a href="/stamps/edit">Edit</a>
+    </div>
+{%endblock%}
+{%block prequest%}<a href="/stamps/friends/">{{block.super}}</a>{%endblock%}

@@ -1,0 +1,40 @@
+{% extends "base_simple.html"%}
+
+{%block title%}{{block.super}} - {{title}}{%endblock%}
+{%block legend %}{{title}}{%endblock%}
+{%block contfieldset%}
+    {%block info%}{%endblock%}
+    <form action="" method="post">
+        {% for field in form %}
+            {%if field.name == 'avatar' or field.name == 'location'%}
+            {%else%}
+            <div>
+                {{field.label_tag}}:<br/>
+                {{field}}
+                {% for err in field.errors %}
+                    <span >{{err}}</span>
+                {%endfor%}
+                <br/>
+           </div>
+        {%endif%}
+        {%endfor%}
+        
+        {% for field in form %}
+            {%if field.name == 'avatar' or field.name == 'location'%}
+            <div>
+                {{field.label_tag}}:<br/>
+                {{field}}
+                {% for err in field.errors %}
+                    <span >{{err}}</span>
+                {%endfor%}
+                <br/>
+           </div>
+        {%endif%}
+        {%endfor%}
+
+        {%block add_form%}{%endblock%}
+        {% csrf_token %}
+        <button type="submit" value="Submit">Submit</button>
+    </form>
+</fieldset>
+{%endblock%}

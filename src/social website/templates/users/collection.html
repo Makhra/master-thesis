@@ -1,0 +1,28 @@
+{% extends "base_simple.html"%}
+{%block title%}{{block.super}} - {{user.user.username}}'s collection{%endblock%}
+{%block c_co%}class="active"{%endblock%}
+{%block legend%}{{user.user.username}}'s collection{%endblock%}
+{%block contfieldset%}
+    {%if stamps_list%}
+    <table>
+        <tr><th>Name</th><th>Series</th><th>Issue Country</th><th>Issue Year</th><th>Face value</th><th>Used Stamps</th><th>Unused Stamps</th><th>Addition Date</th><th>Catalogs</th>{%if user.user_id != u.id%}<th>Claim</th>{%endif%}</tr>
+        {%for stamp, catalog, pending in stamps_list %}
+            <tr><td><a href="/stamps/display/?stamp={{stamp.stamp.id}}">{{stamp.stamp.name}}</a></td><td>{{stamp.stamp.series}}</td><td>{{stamp.stamp.issue_country}}</a></td><td>{{stamp.stamp.issue_year}}</td><td>{{stamp.stamp.face_value}}<td>{{stamp.used_quantity}}</td><td>{{stamp.unused_quantity}}</td><td>{{stamp.modification_date}}</td><td>{%if catalog%}{%for cat in catalog%}{{cat.catalog_name}}: {{cat.stampcat_id}}<br/>{%endfor%}{%else%}--{%endif%}</td>
+                {%if user.user_id != u.id%}
+                {%if pending%}<td>Pending</td>
+                {%else%}
+                <td><a href="/stamps/interested/?id={{stamp.id}}">Interested</a></td>{%endif%}
+                {%else%}<td><a href="/stamps/delete/?id={{stamp.id}}">Delete</a></td>{%endif%}</tr>
+        {%endfor%}
+    </table>
+    {%else%}
+    	<p>No collection to display</p>
+    {%endif%}
+    <br/>
+    <span class="pages">
+        <form action="" method="get">
+    <button type="submit" name="page" value="{{ p|add:"-1" }}" {% if p == 1 %} disabled="disabled" {%endif%}>Next</button>
+    Current : {{p}}
+    <button type="submit" name="page" value="{{ p|add:"1" }}" {% if c < 25 %} disabled="disabled" {%endif%}>Previous</button>
+    </form></span>
+{%endblock%}

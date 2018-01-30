@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load staticfiles%}
+    <link rel="stylesheet" href="{%static "css/base.css"%}" type="text/css" />
+    <title>{% block title %}MyPhilately{% endblock %}</title>
+</head>
+<body>
+    <div id="navigation">
+        {% block navigation %}
+        <span class="title">MyPhilately</span> - <span class="subtitle">A social network for stamps lovers!</span><br/>
+        {%if u.is_authenticated%}
+        <ul>
+            <li {%block c_ho%}{%endblock%}><a href="/stamps/home/">Profile</a></li>
+            <li {%block c_mb%}{%endblock%}><a href="/stamps/mailbox/">Messages</a></li>
+            <li {%block c_se%}{%endblock%}><a href="/stamps/friends/">Friends</a></li>
+            <li {%block c_in%}{%endblock%}><a href="/stamps/interest/">Interests</a></li>
+            <li {%block c_co%}{%endblock%}><a href="/stamps/collection/">Collection</a></li>
+            <li {%block c_up%}{%endblock%}><a href="/stamps/upload/">Upload</a></li>
+            <li {%block c_fi%}{%endblock%}><a href="/stamps/finder/">Finder</a></li>
+            <li {%block c_st%}{%endblock%}><a href="/stamps/stamps/">Stamps database</a></li>
+            <li {%block c_lo%}{%endblock%}><a href="/stamps/logout/">Logout</a></li>
+        </ul>
+        {%else%}
+        <ul>
+            <li><a href="/stamps/login/">Login</a></li>
+            <li><a href="/stamps/signup/">Signup</a></li>
+            <li><a href="/stamps/stamps/">Stamps database</a></li>
+        </ul>
+        {%endif%}
+        {%endblock%}
+    </div>                                                        
+    <div id="content">
+        {%block content%}{%endblock%}
+    </div>
+</body>
+</html>

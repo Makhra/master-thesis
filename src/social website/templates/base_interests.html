@@ -1,0 +1,18 @@
+{%extends 'base.html'%}
+{%block title%}{{block.super}} - u.user.username {%endblock%}
+
+{%block content%}
+    <div class="row">
+<div id="left">
+		{%block history%}{%endblock%}
+	</div>
+		<div id="right">
+	    {%block right%}
+	    {%block complete%}{%endblock%}
+	    {%block ready%}{%endblock%}
+	    {%block pending%}{%endblock%}
+	    {%block yours%}{%endblock%}
+	    {%endblock%}
+</div>
+    </div>
+{%endblock%}

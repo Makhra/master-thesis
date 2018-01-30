@@ -1,0 +1,49 @@
+{%extends "base.html"%}
+{%block title%}{{block.super}}{%endblock%}
+
+{%block content%}
+{%block form%}{%endblock%}
+    <div class="row">{%block review%} {%endblock%}</div>
+    {%block stamp%}
+    <div class="row">
+        <div id="right">
+            <div id="picture">{%block picture%}{%endblock%}</div>
+        
+        {%block catalogleft%}
+        <fieldset class="commonr">
+        <legend>Catalogs</legend>
+            {%block catalog%}{%endblock%}
+        </fieldset>
+        {%endblock%}
+
+        {%block nownership%}
+        <fieldset class="commonr">
+            <legend>Ownership</legend>
+            {%block ownership%}{%endblock%}
+        </fieldset>
+        {%endblock%}
+
+        </div>
+        <div id="left">
+        <fieldset class="commonl">
+        <legend>Common information</legend>
+            {%block common%}{%endblock%}
+        </fieldset>
+
+        <fieldset class="commonl">
+        <legend>Advanced information</legend>
+            {%block advanced%}{%endblock%}
+        </fieldset>
+
+        {%block catalogright%}
+        {%endblock%}
+        </div>
+        {%block fixlayout%}
+        {%endblock%}
+    </div>
+    {%endblock%}
+    <div id="also">
+        {%block also%}{%endblock%}
+    </div>
+{%block closeform%} {%endblock%}
+{%endblock content%}

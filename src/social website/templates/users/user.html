@@ -1,0 +1,47 @@
+{%extends "base_users.html"%}
+{%block title%}{{block.super}} - {{user.user.username}}'s page{%endblock%}
+
+{%block share%}
+    {%if not uf%}
+        <form action="/stamps/friendreq" method="get">
+            <button name="user" value="{{user.user_id}}">Share information</button>
+    {%else%}
+        <form action="/stamps/nfriendreq" method="get">
+            <button name="user" value="{{user.user_id}}">Unshare</button>
+    {%endif%}
+        </form>
+        <form action="/stamps/messages" method="get">
+            <button name="user" value="{{user.user_id}}">Send message</button>
+        </form>
+
+{%endblock share%}
+
+{%block middle_left%}
+    {%if fu%}
+        {{block.super}}
+    {%endif%}
+{%endblock%}
+
+{%block middle_right%}
+    {%if fu%}
+    <fieldset class="commonr">
+    <legend>Trades reviews</legend>
+        {%if reviewed %}
+            <table>
+            <tr><th>State</th><th>User</th><th>Grade</th><th>Issue Country</th><th>Issue Year</th><th>Face Value</th></tr>
+            {%for tra in reviewed%}
+                <tr>
+                {% if tra.interest.collection.user == user %}<td>Sent</td><td>{{tra.interest.interested_user.user.username}}</td><td>{%if tra.grade_sender%}{{tra.grade_sender}}{%else%}N/A{%endif%}</td>
+                {% elif tra.interest.interested_user == user %}<td>Received</td><td>{{tra.interest.collection.user.user.username}}</td><td>{%if tra.grade_receiver%}{{tra.grade_receiver}}{%else%}N/A{%endif%}</td>
+                {%endif%}
+                <td>{{tra.interest.collection.stamp.issue_country}}</td><td>{{tra.interest.collection.stamp.issue_year}}</td><td>{{tra.interest.collection.stamp.face_value}}</td><td><a href="/stamps/transaction/?id={{tra.interest_id}}">See review</a></td></tr>
+            {%endfor%}
+            </table>
+        {%else%}
+            <p>No review available for display</p>
+        {%endif%}
+    </fieldset>
+    {%endif%}
+{%endblock%}
+
+{%block bottom%}{%endblock%}

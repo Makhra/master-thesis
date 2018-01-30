@@ -1,0 +1,15 @@
+{%extends "users/auth.html"%}
+
+{%block legend%}Trade review:{%endblock%}
+{%block info%}
+	{%if t.collection.user.user == u %}
+	    <span>Stamp sent to {{t.interested_user.user.username}}</span>
+    {%elif t.interested_user.user == u%}
+    	<span>Previous owner: {{t.collection.user.user.username}}</span>
+    {%endif%}
+    <br/>
+    Traded stamp: {{t.collection.stamp.issue_country}} - 
+    {{t.collection.stamp.issue_year}}: 
+    {{t.collection.stamp.face_value}}
+    </p>
+{%endblock%}

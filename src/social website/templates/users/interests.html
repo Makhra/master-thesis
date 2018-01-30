@@ -1,0 +1,102 @@
+{%extends "base_interests.html"%}
+{%block title%}{{block.super}} - Interests{%endblock%}
+{%block c_in%}class="active"{%endblock%}
+{%block complete%}
+    <fieldset class="commonr">
+    <legend>Trade completed</legend>
+        {%if to_review %}
+            <table>
+            <tr><th>State</th><th>User</th><th>Grade</th><th>Review</th><th>Name</th><th>Series</th></tr>
+            {%for tra in to_review%}
+                <tr>
+                {% if tra.interest.collection.user.user == u %}<td>Sent</td><td>{{tra.interest.interested_user.user.username}}</td><td>{%if tra.grade_sender%}{{tra.grade_sender}}{%else%}N/A{%endif%}</td><td>{%if not tra.grade_receiver %}<a href="/stamps/transaction_review/?id={{tra.interest_id}}">Review</a>{%else%}Reviewed{%endif%}</td>
+                {% elif tra.interest.interested_user.user == u %}<td>Received</td><td>{{tra.interest.collection.user.user.username}}</td><td>{%if tra.grade_receiver%}{{tra.grade_receiver}}{%else%}N/A{%endif%}</td><td>{%if not tra.grade_sender %}<a href="/stamps/transaction_review/?id={{tra.interest_id}}">Review</a>{%else%}Reviewed{%endif%}</td>
+                {%endif%}
+                <td>{{tra.interest.collection.stamp.name}}</td><td>{{tra.interest.collection.stamp.series}}</td></tr>
+            {%endfor%}
+            </table>
+        {%else%}
+            <p>There is currently no completed trade</p>
+        {%endif%}
+    </fieldset>
+{%endblock%}
+
+{%block ready%}
+    <fieldset class="commonr">
+    <legend>Ready to trade</legend>
+        {%if uacc %}
+            <table>
+            <tr><th>Type</th><th>User</th><th>Name</th><th>Series</th></tr>
+            {%for stamp in uacc%}
+                <tr>
+                {%if stamp.collection.user.user == u %}<td>ToSend</td><td>{{stamp.interested_user.user.username}}</td>
+                {%elif stamp.interested_user.user == u %}<td>ToReceive</td><td>{{stamp.collection.user.user.username}}</td>
+                {%endif%}
+                <td>{{stamp.collection.stamp.name}}</td><td>{{stamp.collection.stamp.series}}</td>
+                <td><a href="/stamps/done/?id={{stamp.id}}"/>Confirm</a> / <a href="/stamps/ndone/?id={{stamp.id}}"/>Cancel</a></td>
+                </tr>
+            {%endfor%}
+            </table>
+        {%else%}
+            <p>Currently no pending transaction</p>
+        {%endif%}
+    </fieldset>
+{%endblock%}
+
+{%block history%}
+    <fieldset class="history">
+    <legend>History</legend>
+        {%if reviewed %}
+            <table>
+            <tr><th>State</th><th>User</th><th>Grade</th><th>Name</th><th>Series</th></tr>
+            {%for tra in reviewed%}
+                <tr>
+                {% if tra.interest.collection.user.user == u %}<td>Sent</td><td>{{tra.interest.interested_user.user.username}}</td><td>{%if tra.grade_sender%}{{tra.grade_sender}}{%else%}N/A{%endif%}</td>
+                {% elif tra.interest.interested_user.user == u %}<td>Received</td><td>{{tra.interest.collection.user.user.username}}</td><td>{%if tra.grade_receiver%}{{tra.grade_receiver}}{%else%}N/A{%endif%}</td>
+                {%endif%}
+                <td>{{tra.interest.collection.stamp.name}}</td><td>{{tra.interest.collection.stamp.series}}</td><td><a href="/stamps/transaction/?id={{tra.interest_id}}">See review</a></td></tr>
+            {%endfor%}
+            </table>
+        {%else%}
+            <p>No review available</p>
+        {%endif%}
+    <span class="pages"><form action="" method="get">
+    <button type="submit" name="page" value="{{ p|add:"-1" }}" {% if p == 1 %} disabled="disabled" {%endif%}>Next</button>
+    Current : {{p}}
+    <button type="submit" name="page" value="{{ p|add:"1" }}" {% if c < 25 %} disabled="disabled" {%endif%}>Previous</button>
+    </form></span>
+    </fieldset>
+{%endblock%}
+
+{%block pending%}
+    <fieldset class="commonr">
+    <legend>Your interests</legend>
+        {%if uinterest %}
+        <table>
+            <tr><th>Name</th><th>Series</th><th>Current Owner</th></tr>
+            {%for stamp in uinterest%}
+                <tr><td>{{stamp.collection.stamp.name}}</td><td>{{stamp.collection.stamp.series}}</td><td>{{stamp.collection.user.user.username}}</td></tr>
+            {%endfor%}
+        </table>
+        {%else%}
+            <p>No current interest</p>
+        {%endif%}
+    </fieldset>
+{%endblock%}
+{%block yours%}
+    <fieldset class="commonr">
+    <legend>Pending interest</legend>
+        {%if ointerest %}
+            <table>
+                <tr><th>Name</th><th>Series</th><th>Interested User</th></tr>
+                {%for stamp in ointerest%}
+                    <tr><td>{{stamp.collection.stamp.name}}</td><td>{{stamp.collection.stamp.series}}</td><td>{{stamp.interested_user.user.username}}</td><td><a href="/stamps/accepted/?id={{stamp.id}}"/>Confirm</a> / <a href="/stamps/naccepted/?id={{stamp.id}}"/>Cancel</a></td></tr>
+                {%endfor%}
+            </table>
+        {%else%}
+            <p>No pending interest</p>
+        {%endif%}
+    </fieldset>
+{%endblock%}
+
+

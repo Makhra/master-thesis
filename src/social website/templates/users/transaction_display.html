@@ -1,0 +1,43 @@
+{% extends "stamps/display.html" %}
+
+{%block review%}
+    <div class="row">
+        <div id="left">
+    <fieldset class ="commonl">
+            <legend>{{f.user.username}}' review</legend>
+            {% if t.interest.collection.user == f%}
+                <p>Grade: {{t.grade_sender}}</p>
+                <p>Review:<br/>
+                {{t.review_sender}}</p>
+            {%elif t.interest.interested_user == f%}
+                <p>Grade: {{t.grade_receiver}}</p>
+                <p>Review:<br/>
+                {{t.review_receiver}}</p>
+            {%endif%}                
+    </fieldset>
+</div>
+<div id="right">
+    <fieldset class ="commonr">
+            {% if t.interest.collection.user == f%}
+                <legend>{{t.interest.interested_user.user.username}}' review</legend>
+                <p>Grade: {{t.grade_receiver}}</p>
+                <p>Review:<br/>
+                {{t.review_receiver}}</p>
+            {%elif t.interest.interested_user == f%}
+                <legend>{{t.interest.collection.user.user.username}}' review</legend>
+                <p>Grade: {{t.grade_sender}}</p>
+                <p>Review:<br/>
+                {{t.review_sender}}</p>
+            {%endif%}
+    </div>
+</div>
+{%endblock%}
+{%block catalog%}
+    {%if catalogs%}
+    {{block.super}}
+    {%else%}
+    <span>Nothing to display</span>
+    {%endif%}
+{%endblock%}
+{%block fixlayout%}{%endblock%}
+{%block nownership%}{%endblock%}

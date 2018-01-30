@@ -1,0 +1,76 @@
+{% extends "base_stamps.html"%}
+{%block title%}{{block.super}}{%endblock%}
+{%block review%}{%endblock%}
+{%block picture%}
+    {%if stamp_id.picture.height < stamp_id.picture.width%}
+        <img src="{{stamp_id.picture.url}}"alt="Stamp Image" width="250" Height="200"/>
+    {%elif stamp_id.picture %}
+        <img src="{{stamp_id.picture.url}}"alt="Stamp Image" width="200" Height="250"/>
+    {%else%}
+        {%load staticfiles%}
+        <img src="{%static "nostamp.jpg"%}" alt="Stamp Image" width="200" Height="250"/>
+    {%endif%}
+{%endblock%}
+{%block catalogleft%}
+{%endblock%}
+{%block catalogright%}
+        <fieldset class="commonl">
+        <legend>Catalogs</legend>
+
+    {%if catalogs%}
+    {%for catalog in catalogs%}
+        <p>{{catalog.catalog_name}}: {{catalog.stampcat_id}}</p>
+    {%endfor%}
+    {%else%}
+        <p> No catalog bound to this stamp </p>
+    {%endif%}
+        </fieldset>
+{%endblock%}
+{%block common%}
+    <p>{{stamp_id.series}} - {{stamp_id.name}}</p>
+    <p>{{stamp_id.issue_country}} - {{stamp_id.issue_year}}</p>
+    <p>Face value: {{stamp_id.face_value}} {{stamp_id.currency}}</p>
+{%endblock%}
+
+{%block advanced%}
+    {%if stamp_id.paper_type%}
+    <p>Paper type: {{stamp_id.get_paper_type_display}}</p>
+    {%endif%}
+
+    {%if stamp_id.printing_method%}
+    <p>Printing method: {{stamp_id.get_printing_method_display}}</p>
+    {%endif%}
+
+    {%if stamp_id.color%}
+    <p>Color: {{stamp_id.color}}</p>
+    {%endif%}
+
+    {%if stamp_id.watermark%}
+    <p>Watermark: {{stamp_id.watermark}}</p>
+    {%endif%}
+
+    {%if stamp_id.secret_mark%}
+    <p>Secretmark: {{stamp_id.secret_mark}}</p>
+    {%endif%}
+
+{%endblock%}
+
+{%block ownership%}
+{% if u.id%}
+{{ form.non_field_errors }}
+<form action="" method="post">
+{% for field in form %}
+    <div {% if field.errors %}class="field_error"{%endif%}>
+    <p>{{field.label_tag}}:<br/>
+    {{field}}</p>
+    {% for err in field.errors %}
+        <span class="error_message">{{err}}</span>
+    {%endfor%}
+{%endfor%}
+</div>
+{% csrf_token %}
+<input type="submit" value="Update"/>
+</form>
+{%endif%}
+{%endblock%}
+

@@ -1,0 +1,114 @@
+{%extends "base.html"%}
+{%block title%}{{block.super}}{%endblock%}
+{%block content%}
+
+    <div class="row">
+        <div id="left">
+        {%block upper_left%}
+            <fieldset class="commonl">
+            <legend>Profile</legend>
+                <div id="avatar">
+                    {%if user.user.avatar == None%}
+                        {%load staticfiles%}
+                        <img src="{% static "undefined.jpg"%}" alt="Profil Image" width="125" Height="150"/>
+                    {%else%}
+                        <img src="{{user.user.avatar}}" alt="Avatar"/>
+                    {%endif%}
+                </div>
+                <div id="info">
+                    <p>Username: {{user.user.username}}</p>
+                    <p>Location:
+                    {% if user.location != ""%}{{user.location}}
+                    {%else%}Unknown</p>
+                    {%endif%}
+                    <p>Email: {{user.user.email}}</p>
+                    <p>Grade: {{user.grade}}({{user.transactions_amount}})
+                    {%block share%}{%endblock%}
+                </div>
+                {%block edit%}{%endblock%}
+            </fieldset>                
+        {%endblock upper_left%}
+        {%block middle_left%}
+            <fieldset class="commonl">
+            <legend>{% if user %}<a href="/stamps/collection/?id={{user.user_id}}">Recent additions</a>{%else%}Recent additions{%endif%}</legend>
+                {%if stamps_list%}
+                    <table id="table">
+                        <thead>
+                        <tr><th>Name</th><th>Series</th><th>Used Stamps</th><th>Unused Stamps</th><th>Addition Date</th></tr>
+                        </thead>
+                        <tbody>
+                        {%for stamp in stamps_list %}
+                            <a href="/stamps/collection"><tr><td>{{stamp.stamp.name}}</td><td>{{stamp.stamp.series}}</td><td>{{stamp.used_quantity}}</td><td>{{stamp.unused_quantity}}</td><td>{{stamp.modification_date}}</td></tr></a>
+                        {%endfor%}
+                        </tbody>
+                    </table>
+                {%else%}
+                    <p>No recent addition</p>
+                {%endif%}
+            </fieldset>
+        {%endblock%}
+        {%block lower_left%}
+            <fieldset class="commonl">
+            <legend>Your interests</legend>
+                {%if uinterest %}
+                <table>
+                    <tr><th>Name</th><th>Series</th><th>Face Value</th><th>Current Owner</th><th>State</th></tr>
+                    {%for stamp in uinterest%}
+                        <tr><td>{{stamp.collection.stamp.name}}</td><td>{{stamp.collection.stamp.series}}</td><td>{{stamp.collection.stamp.face_value}}</td><td>{{stamp.collection.user.user.username}}</td><td>{{stamp.state}}</td></tr>
+                    {%endfor%}
+                </table>
+                {%else%}
+                    <p>No pending interest</p>
+                {%endif%}
+            </fieldset>
+        {%endblock%}
+    </div>
+    <div id="right">
+        {%block upper_right%}
+            <fieldset class="commonr">
+            <legend>{%block lsearch%}Search for an user{%endblock%}</legend>
+                <form action="" method="post">
+                    Username: <input type="text" name="friend_name"/>
+                    {% csrf_token %}
+                    <input type="submit" value="Search"/>
+                </form>
+                {%block request%}
+                {% for friend in friend_result %}
+                    <span><a href="/stamps/user/?user={{friend.id}}">{{ friend }}</a></span><br/>
+                {%endfor%}
+                {%endblock%}
+            </fieldset>
+        {%endblock%}
+        {%block middle_right%}
+            <fieldset class="commonr">
+            <legend>{%block prequest%}Pending request{%endblock%}</legend>
+                {%if pending%}
+                {%for request in pending%}
+                    <a href="/stamps/user/?user={{request.friend_id}}">{{request.friend.user.username}} - {{request.date}}</a>
+                    <a href="/stamps/friendreq/?user={{request.friend_id}}">Accept</a>
+                    <a href="/stamps/nfriendreq/?user={{request.friend_id}}">Deny</a>
+                    <br/>
+                {%endfor%}
+                {%else%}
+                    <p>No pending request</p>
+                {%endif%}
+            </fieldset>
+        {%endblock%}
+        {%block lower_right%}
+            <fieldset class="commonr">
+            <legend>Pending interest</legend>
+                {%if ointerest %}
+                    <table>
+                        <tr><th>Name</th><th>Series</th><th>Face Value</th><th>Interested User</th><th>State</th><th>Accept</th></tr>
+                        {%for stamp in ointerest%}
+                            <tr><td>{{stamp.collection.stamp.name}}</td><td>{{stamp.collection.stamp.series}}</td><td>{{stamp.collection.stamp.face_value}}</td><td>{{stamp.interested_user.user.username}}</td><td>{{stamp.state}}</td><td><a href="/stamps/accepted/?id={{stamp.id}}"/>Confirm</a> / <a href="/stamps/naccepted/?id={{stamp.id}}"/>Cancel</a></td></tr>
+                        {%endfor%}
+                    </table>
+                {%else%}
+                    <p>No pending interest on your collection</p>
+                {%endif%}
+            </fieldset>
+        {%endblock%}
+    </div>
+
+{%endblock%}

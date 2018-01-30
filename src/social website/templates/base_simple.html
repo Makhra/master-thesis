@@ -1,0 +1,11 @@
+{%extends 'base.html'%}
+{%block title%}{{block.super}}{%endblock%}
+
+{%block content%}
+	<div class="row">
+	<fieldset class="full">
+		<legend>{%block legend%}{%endblock%}</legend>
+		{%block contfieldset%}{%endblock%}
+	</fieldset>
+</div>
+{%endblock%}

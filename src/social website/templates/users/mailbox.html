@@ -1,0 +1,17 @@
+{%extends 'base_simple.html'%}
+{%block legend %}Your MailBox{%endblock%}
+{%block c_mb%}class="active"{%endblock%}
+{%block contfieldset%}
+	<div id="mailbox">
+	{%if messages%}
+	<table>
+		<tr><th>User</th><th>Message</th><th>Time sent</th></tr>
+	{%for message in messages%}
+	<tr {%if not message.seen%}class="unseen"{%endif%}><td><a href="/stamps/messages/?user={{message.sender_id}}" >{{message.sender.user.username}}</a></td><td>{{message.message}}</td><td>{{message.sent_time|date:"F j,"}} {{message.sent_time.time}}</td>{%if not message.seen%}<td>New message(s)</td>{%endif%}</tr>
+	{%endfor%}
+	</table>
+	{%else%}
+		<p>You didn't received any message yet</p>
+	{%endif%}
+</div>
+{%endblock%}

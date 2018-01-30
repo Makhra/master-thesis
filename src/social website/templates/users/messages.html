@@ -1,0 +1,21 @@
+{%extends 'base_simple.html'%}
+{%block c_mb%}class="active"{%endblock%}
+{%block legend%}Messages{%endblock%}
+{%block contfieldset%}
+<div id="messages">
+	<ul>
+	{%for message in messages%}
+		<li{%if message.sender.user == u%} class="user"{%elif message.receiver.user == u%} class="friend"{%endif%}>{{message.sent_time|date:"F j,"}} {{message.sent_time.time}} - {{message.sender.user.username}}: {{message.message}}</li>
+	{%endfor%}
+	</ul>
+</div>
+<div id="sendmessage">
+	<form action="" method="post">
+	{% csrf_token %}
+	{%for f in form%}
+	{{f}}
+	{%endfor%}
+	<button type="submit">Submit</button>
+	</form>
+</div>
+{%endblock%}

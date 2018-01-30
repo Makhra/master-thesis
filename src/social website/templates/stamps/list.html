@@ -1,0 +1,36 @@
+{% extends "base_simple.html"%}
+{%block title%}{{block.super}} - Stamps{%endblock%}
+{%block c_st%}class="active"{%endblock%}
+
+{%block legend%}Search criteria{%endblock%}
+{%block contfieldset %}
+    <form action="" method="post">
+    Search: <input type="text" name="search"/>
+    <select name="criteria">
+        <option value="issue_country">Country of issue</option>
+        <option value="issue_year">Year of issue</option>
+        <option value="color">Color</option>
+    </select>
+    {%csrf_token%}
+    <button type="submit" name="updatesearch" value="ok">Submit</button>
+    <input type="hidden" name="hsearch" value="{{sear}}"/>
+    <input type="hidden" name="hcriteria" value="{{crit}}"/>
+    </form>
+</fieldset>
+<fieldset class="full">
+<legend>Stamps list</legend>
+    <table>
+    <tr><th>Name</th><th>Series</th><th>Issue Country</th><th>Issue Year</th><th>Face Value</th><th>Catalogs</th></tr>
+    {%for stamp, catalog in stamps_list %}
+        <tr><td><a href="/stamps/display/?stamp={{stamp.id}}">
+            {{stamp.name}}</a></td><td>{{stamp.series}}</td><td>{{stamp.issue_country}}</a></td><td>{{stamp.issue_year}}</td><td>{{stamp.face_value}}</td><td>{%if catalog%}{%for cat in catalog%}{{cat.catalog_name}}: {{cat.stampcat_id}}<br/>{%endfor%}{%else%}--{%endif%}</td></tr>
+    {%endfor%}
+    </table>
+    <br/>
+    <span class="pages"><form action="" method="get">
+    <button type="submit" name="page" value="{{ p|add:"-1" }}" {% if p == 1 %} disabled="disabled" {%endif%}>Next</button>
+    Current : {{p}}
+    <button type="submit" name="page" value="{{ p|add:"1" }}" {% if c < 25 %} disabled="disabled" {%endif%}>Previous</button>
+    </form></span>
+</fieldset>
+{%endblock%}
